@@ -1,25 +1,33 @@
 import { createAction } from '@reduxjs/toolkit';
+import { create } from 'domain';
 
 type CounterState = {
   count: number;
 };
-type CounterAction =
-  | { type: 'INCREMENT' | 'DECREMENT'; payload: number }
-  | { type: 'RESET' };
+
 const increment = createAction('INCREMENT', (amount: number) => {
   return {
     payload: amount,
   };
 });
-const incrementAction = increment(2);
+export const decrement = createAction('DECREMENT', (amount: number) => {
+  return {
+    payload: amount,
+  };
+});
+const reset = createAction('RESET');
+type CounterAction =
+  | ReturnType<typeof increment>
+  | ReturnType<typeof decrement>
+  | ReturnType<typeof reset>;
 
 export const reducer = (state: CounterState, action: CounterAction) => {
   switch (action.type) {
     case increment.type:
       return { ...state, count: state.count + action.payload };
-    case 'DECREMENT':
+    case decrement.type:
       return { ...state, count: state.count - action.payload };
-    case 'RESET':
+    case reset.type:
       return { ...state, count: 0 };
     default:
       return state;

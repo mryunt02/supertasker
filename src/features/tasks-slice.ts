@@ -11,7 +11,7 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {
     addTask: (state, action: PayloadAction<Task>) => {
-      state.entities.push(action.payload);
+      state.entities.unshift(action.payload);
     },
     removeTask: (state, action: PayloadAction<Task>) => {
       state.entities.filter((task) => task.id !== action.payload.id);
@@ -19,9 +19,7 @@ const tasksSlice = createSlice({
   },
 });
 
-tasksSlice.actions.addTask({
-  id: '2',
-  title: 'Task 1',
-  user: '1',
-  column: '1',
-});
+export const tasksReducer = tasksSlice.reducer;
+export const { addTask, removeTask } = tasksSlice.actions;
+
+export default tasksSlice;
